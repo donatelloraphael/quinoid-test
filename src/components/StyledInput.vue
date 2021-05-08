@@ -1,19 +1,50 @@
 <template>
   <div class="form-group">
     <label :for="name" class="form-label">{{ label }}</label>
-    <input :type="type" class="form-field" :placeholder="placeholder" :name="name" :id="name" required>
+    <input :type="type" :class="{ 'form-field': true, 'form-field-error': errorMsg }" v-model="textContent" :placeholder="placeholder" :name="name" :id="name" required>
+    <div class="error" v-if="errorMsg">{{ errorMsg }}</div>
   </div>
 </template>
 
 <script>
   export default {
     name: "StyledInput",
-    props: [
-      "name",
-      "type",
-      "label",
-      "placeholder",
-    ],
+    props: {
+      name: {
+        type: String,
+      },
+      type: {
+        type: String,
+      },
+      label: {
+        type: String,
+      },
+      placeholder: {
+        type: String
+      },
+      value: {
+        type: String,
+        default: "",
+      },
+      errorMsg: {
+        type: String,
+        default: "",
+      },
+    },
+    model: {
+      prop: "value",
+      event: "changeValue",
+    },
+    data() {
+      return {
+        textContent: "",
+      }
+    },
+    watch: {
+      textContent() {
+        this.$emit("changeValue", this.textContent);
+      }
+    },
   };
 </script>
 
@@ -58,6 +89,16 @@
   /* reset input */
   .form-field:required, .form-field:invalid { 
     box-shadow:none;
+  }
+
+  .form-field-error {
+    border-bottom-color: red;
+  }
+
+  .error {
+    font-size: 0.8rem;
+    color: red;
+    margin-top: 5px;
   }
 </style>
 
