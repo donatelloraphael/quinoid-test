@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="home-graphics"></div>
-    <div class="auth">
+    <div class="home-auth">
       <auth-card>
         <template>
           <h2>User Signup</h2>
@@ -36,7 +36,7 @@
 
             <auth-button textContent="SIGN UP" @click.native="signup()"></auth-button>
             <p>
-              <span>Already have an account? <router-link to="/signin">Sign In</router-link></span>
+              <span>Already have an account? <router-link to="/login">Sign In</router-link></span>
             </p>
           </form>
         </template>
@@ -49,6 +49,7 @@
   import AuthCard from "@/components/AuthCard.vue";
   import StyledInput from "@/components/StyledInput.vue";
   import AuthButton from "@/components/AuthButton.vue";
+  import validations from "@/shared/validations";
 
   export default {
     name: "Signup",
@@ -79,29 +80,6 @@
       }
     },
     methods: {
-      validateEmail() {
-        // eslint-disable-next-line
-        const emailRegex = /^[a-zA-Z0-9-+\~_]+@[a-zA-Z0-9-+\~_]+\.[a-zA-Z0-9-+\~_]+$/;
-        if (!emailRegex.test(this.email)) {
-          this.emailError = "Enter a valid email";
-        } else {
-          this.emailError = "";
-        }
-      },
-      validatePassword() {
-        if (this.password.length < 8) {
-          this.passwordError = "Password must be longer than 8 characters";
-        } else {
-          this.passwordError = "";
-        }
-      },
-      validateConfirmPassword() {
-        if (this.password !== this.confirmPassword) {
-          this.confirmPasswordError = "Passwords do not match";
-        } else {
-          this.confirmPasswordError = "";
-        }
-      },
       validateFields() {
         this.validateEmail();
         this.validatePassword();
@@ -109,18 +87,23 @@
       },
       signup() {
         this.validateFields();
-        
+
         if ((this.email && this.emailError) || (this.password && this.passwordError) || (this.confirmPassword && this.confirmPasswordError)) {
-          console.log("FAIL")
           return;
         }
-        console.log("Signing up");
+        this.$store.commit("addUser", { email: this.email, password: this.password });
+        this.$router.push("/success");
       }
+    },
+    created() {
+      this.validateEmail = validations.validateEmail.bind(this);
+      this.validatePassword = validations.validatePassword.bind(this);
+      this.validateConfirmPassword = validations.validateConfirmPassword.bind(this);
     },
   };
 </script>
 
-<style scoped>
+<style>
   .home-graphics {
     width: 50%;
     height: 100%;
@@ -129,7 +112,7 @@
     display: inline-block;
   }
 
-  .auth {
+  .home-auth {
     width: 50%;
     height: 100%;
     float: right;

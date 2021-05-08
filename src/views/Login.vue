@@ -1,19 +1,136 @@
 <template>
-  <div>
-    <h1>HEllo</h1>
+  <div class="container">
+    <div class="home-graphics"></div>
+    <div class="home-auth">
+      <auth-card>
+        <template>
+          <h2>User Signup</h2>
+          <form>
+            <styled-input 
+              name="email" 
+              type="email" 
+              v-model="email" 
+              label="Your Email" 
+              placeholder="Enter Your Email" 
+              :errorMsg="emailError"
+              spellcheck="false">
+            </styled-input>
+
+            <styled-input 
+              name="password" 
+              type="password" 
+              v-model="password" 
+              label="Password"
+              placeholder="Enter Your Password"
+              :errorMsg="passwordError">
+            </styled-input>
+
+            <styled-select 
+              name="examCategory"
+              v-model="category"
+              label="Exam Category" 
+              placeholder="--Select your exam category--"
+              :options="selectOptions"
+              :errorMsg="categoryError">
+            </styled-select>
+
+            <div class="error" v-if="credentialError">Check username or password</div>
+
+            <auth-button textContent="SIGN IN" @click.native="signin()"></auth-button>
+            <p>
+              <span>Don't have an account? <router-link to="/signup">Sign Up</router-link></span>
+            </p>
+          </form>
+        </template>
+      </auth-card>
+     </div>
   </div>
 </template>
 
 <script>
+  import AuthCard from "@/components/AuthCard.vue";
+  import StyledInput from "@/components/StyledInput.vue";
+  import StyledSelect from "@/components/StyledSelect.vue";
+  import AuthButton from "@/components/AuthButton.vue";
+  import validations from "@/shared/validations";
+
   export default {
-    name: "Login",    
+    name: "Signup",
+    components: {
+      StyledInput,
+      StyledSelect,
+      AuthButton,
+      AuthCard,
+    },
+    data() {
+      return {
+        email: "",
+        password: "",
+        category: "",
+        emailError: "",
+        passwordError: "",
+        categoryError: "",
+        selectOptions: ["Sports", "Arts", "History", "Physics"],
+        credentialError: false,
+      }
+    },
+    watch: {
+      email() {
+        this.validateEmail();
+      },
+    },
+    methods: {
+      validateFields() {
+        this.validateEmail();
+        this.validatePassword();
+        this.validateCategory();
+      },
+      validatePassword() {
+        if (this.password.length === 0) {
+          this.passwordError = "Enter a password";
+        } else {
+          this.passwordError = "";
+        }
+      },
+      validateCategory() {
+         if (!this.category) {
+          this.categoryError = "Select a category";
+        } else {
+          this.categoryError = "";
+        }
+      },
+      signin() {
+        this.credentialError = false;
+        this.validateFields();
+
+        if (this.email && this.emailError) {
+          return;
+        }
+        this.$store.dispatch("login", { email: this.email, password: this.password });
+        const user = this.$store.getters.getUser;
+        if (user) {
+          this.$store.commit("setCategory", this.category);
+          this.$router.push("/test");
+        } else {
+          this.credentialError = true;
+        }
+      }
+    },
+    created() {
+      this.validateEmail = validations.validateEmail.bind(this);
+    },
   };
 </script>
 
 <style scoped>
-  h1 {
+  .home-graphics {
+    background: url("../assets/img/login.png") no-repeat scroll center;
+    background-size: cover;
+  }
+
+  .error {
+    font-size: 0.9rem;
     color: red;
-    font-size: 2rem;
   }
 </style>
- 
+  

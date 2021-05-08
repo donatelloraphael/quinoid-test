@@ -15,6 +15,15 @@
 
          },
          {
+            path: "/signup",
+            component: Signup,
+         },
+         {
+             path: "/success",
+             name: "success",
+             component: () => import(/* webpackChunkName: "user-chunk" */ "./views/Success.vue"),
+         },
+         {
              path: "/login",
              name: "login",
              component: () => import(/* webpackChunkName: "user-chunk" */ "./views/Login.vue"),
