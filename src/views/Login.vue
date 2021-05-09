@@ -4,7 +4,7 @@
     <div class="home-auth">
       <auth-card>
         <template>
-          <h2>User Signup</h2>
+          <h2>User Sign in</h2>
           <form>
             <styled-input 
               name="email" 
@@ -25,14 +25,15 @@
               :errorMsg="passwordError">
             </styled-input>
 
-            <styled-select 
+            <styled-input 
               name="examCategory"
+              type="select"
               v-model="category"
               label="Exam Category" 
               placeholder="--Select your exam category--"
               :options="selectOptions"
               :errorMsg="categoryError">
-            </styled-select>
+            </styled-input>
 
             <div class="error" v-if="credentialError">Check username or password</div>
 
@@ -50,7 +51,6 @@
 <script>
   import AuthCard from "@/components/AuthCard.vue";
   import StyledInput from "@/components/StyledInput.vue";
-  import StyledSelect from "@/components/StyledSelect.vue";
   import AuthButton from "@/components/AuthButton.vue";
   import validations from "@/shared/validations";
 
@@ -58,7 +58,6 @@
     name: "Signup",
     components: {
       StyledInput,
-      StyledSelect,
       AuthButton,
       AuthCard,
     },
@@ -103,7 +102,7 @@
         this.credentialError = false;
         this.validateFields();
 
-        if (this.email && this.emailError) {
+        if (this.emailError || this.passwordError || this.categoryError) {
           return;
         }
         this.$store.dispatch("login", { email: this.email, password: this.password });

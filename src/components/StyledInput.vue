@@ -1,7 +1,16 @@
 <template>
   <div class="form-group">
     <label :for="name" class="form-label">{{ label }}</label>
-    <input :type="type" :class="{ 'form-field': true, 'form-field-error': errorMsg }" v-model="textContent" :placeholder="placeholder" :name="name" :id="name" required>
+    <div v-if="type==='select'">
+      <select :class="{ 'form-field': true, 'form-field-error': errorMsg }" v-model="textContent" :name="name" :id="name" required>
+        <option value="" disabled selected>{{ placeholder }}</option>
+        <option v-for="option in options" :key="option" :value="option">{{ option }}</option>
+      </select>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"/></svg>
+    </div>
+    <div v-else>
+      <input :type="type" :class="{ 'form-field': true, 'form-field-error': errorMsg }" v-model="textContent" :placeholder="placeholder" :name="name" :id="name" required>
+    </div>
     <div class="error" v-if="errorMsg">{{ errorMsg }}</div>
   </div>
 </template>
@@ -25,6 +34,10 @@
       value: {
         type: String,
         default: "",
+      },
+      options: {
+        type: Array,
+        default: new Array(),
       },
       errorMsg: {
         type: String,
@@ -85,7 +98,20 @@
     border-image: linear-gradient(to right, #2b7fd7, #6da8ff);
     border-image-slice: 1;
   }
- 
+
+  svg {
+    position: absolute;
+    right: 12px;
+    width: 15px;
+    bottom: 25px;
+    height: 10px;
+    stroke-width: 2px;
+    stroke: #82869a;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+   
   /* reset input */
   .form-field:required, .form-field:invalid { 
     box-shadow:none;

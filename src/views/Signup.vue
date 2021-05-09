@@ -4,7 +4,7 @@
     <div class="home-auth">
       <auth-card>
         <template>
-          <h2>User Signup</h2>
+          <h2>User Sign up</h2>
           <form>
             <styled-input 
               name="email" 
@@ -88,7 +88,7 @@
       signup() {
         this.validateFields();
 
-        if ((this.email && this.emailError) || (this.password && this.passwordError) || (this.confirmPassword && this.confirmPasswordError)) {
+        if (this.emailError || this.passwordError|| this.confirmPasswordError) {
           return;
         }
         this.$store.commit("addUser", { email: this.email, password: this.password });
