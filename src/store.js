@@ -7,8 +7,10 @@ export default new Vuex.Store({
   state() {
     return {
       users: {},
-      currentUser: null,
-      category: "",
+      // currentUser: null,
+      // category: "",
+      currentUser: "akbar@gmail.com",
+      category: "History",
     }
   },
   mutations: {
@@ -22,7 +24,10 @@ export default new Vuex.Store({
   getters: {
     getUser(state) {
       return state.currentUser;
-    }
+    },
+    getCategory(state) {
+      return state.category;
+    },
   },
   actions: {
     login(context, user) {

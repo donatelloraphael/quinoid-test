@@ -37,7 +37,7 @@
       },
       options: {
         type: Array,
-        default: new Array(),
+        default: null,
       },
       errorMsg: {
         type: String,
