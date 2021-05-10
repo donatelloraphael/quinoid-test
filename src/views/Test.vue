@@ -53,8 +53,6 @@
   import Button from "@/components/Button.vue";
   import jsonData from "@/assets/sampleData.json";
 
-  const TIME_SECONDS = 300;
-
   export default {
     name: "Test",
     components: {
@@ -65,7 +63,7 @@
     data() {
       return {
         questions: [],
-        seconds: TIME_SECONDS,
+        seconds: this.$store.getters.getTotalTime,
         currentQuestion: {},
         numQuestions: this.$store.getters.getNumQuestions,
         selectedAnswer: null,
@@ -129,7 +127,7 @@
       },
       submitAnswers() {
         this.$store.commit("setQuestions", this.questions);
-        this.$store.commit("setTimeTaken", this.timeString);
+        this.$store.dispatch("setTimeTaken", this.seconds);
         this.$store.commit("setNotes", this.notes);
 
         this.$router.push("/result");
@@ -143,11 +141,10 @@
       this.loadQuestions();
       this.getCurrentQuestion();
 
-      console.log(this.currentQuestion);
       // clears history state
       window.history.pushState(null, "", window.location.href);
       window.onpopstate = function () {
-          window.history.pushState(null, "", window.location.href);
+        window.history.pushState(null, "", window.location.href);
       };
       
       setInterval(() => {
