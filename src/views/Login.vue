@@ -109,7 +109,7 @@
         const user = this.$store.getters.getUser;
         if (user) {
           this.$store.commit("setCategory", this.category);
-          this.$router.push("/test");
+          this.$router.replace("/test");
         } else {
           this.credentialError = true;
         }

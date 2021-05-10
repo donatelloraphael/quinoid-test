@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <div class="header">
       <img class="logo" src="@/assets/img/colored_logo.svg" alt="website logo">
       <h1>EXAM CATEGORY: {{ $store.getters.getCategory.toUpperCase() }}</h1>
@@ -28,6 +28,8 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+    z-index: 5;
   }
 
   .header > * {
@@ -40,6 +42,7 @@ export default {
   }
 
   h1 {
+    color: #333333;
     font-size: 1.8rem;
   }
 

@@ -14,7 +14,7 @@
     <div class="bottom">
       <span>© Copyright Clinical Scholar</span>
       <span>|</span>
-      <span>Powered by Qunoid Business Solutions</span>
+      <span>Powered by Quinoid Business Solutions</span>
     </div>
   </div>   
 </template>

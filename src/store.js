@@ -11,6 +11,10 @@ export default new Vuex.Store({
       // category: "",
       currentUser: "akbar@gmail.com",
       category: "History",
+      numQuestions: 5,
+      questions: [],
+      timeTaken: "",
+      notes: "",
     }
   },
   mutations: {
@@ -20,6 +24,15 @@ export default new Vuex.Store({
     setCategory(state, category) {
       state.category = category;
     },
+    setQuestions(state, questions) {
+      state.questions = questions;
+    },
+    setTimeTaken(state, time) {
+      state.timeTaken = time;
+    },
+    setNotes(state, note) {
+      state.notes = note;
+    }
   },
   getters: {
     getUser(state) {
@@ -27,6 +40,9 @@ export default new Vuex.Store({
     },
     getCategory(state) {
       return state.category;
+    },
+    getNumQuestions(state) {
+      return state.numQuestions;
     },
   },
   actions: {

@@ -20,6 +20,7 @@
 
   #app {
     font-family: "Roboto", sans-serif;
+    color: #333333;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
